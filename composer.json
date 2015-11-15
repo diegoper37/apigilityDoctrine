@@ -30,7 +30,10 @@
         "zendframework/zendframework": "~2.4",
         "zfcampus/zf-apigility": "~1.1",
         "zfcampus/zf-apigility-documentation": "^1.0.5",
-        "zfcampus/zf-development-mode": "~2.0"
+        "zfcampus/zf-development-mode": "~2.0",
+        "zfcampus/zf-apigility-doctrine": "^1.1",
+        "phpro/zf-doctrine-hydration-module": "~0.1",
+        "doctrine/doctrine-orm-module": "^0.9.2"
     },
     "require-dev": {
         "zendframework/zftool": "dev-master",
