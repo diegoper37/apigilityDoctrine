@@ -18,12 +18,22 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            'account.rest.doctrine.user-account' => array(
+            'account.rest.user' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/users[/:user_account_id]',
+                    'route' => '/user[/:user_id]',
                     'defaults' => array(
-                        'controller' => 'Account\\V1\\Rest\\UserAccount\\Controller',
+                        'controller' => 'Account\\V1\\Rest\\User\\Controller',
+                    ),
+                ),
+            ),
+            'account.rpc.hello-world' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/hello',
+                    'defaults' => array(
+                        'controller' => 'Account\\V1\\Rpc\\HelloWorld\\Controller',
+                        'action' => 'helloWorld',
                     ),
                 ),
             ),
@@ -31,16 +41,16 @@ return array(
     ),
     'zf-versioning' => array(
         'uri' => array(
-            0 => 'account.rest.doctrine.user-account',
+            0 => 'account.rest.user',
+            1 => 'account.rpc.hello-world',
         ),
     ),
     'zf-rest' => array(
-        'Account\\V1\\Rest\\UserAccount\\Controller' => array(
-            'listener' => 'Account\\V1\\Rest\\UserAccount\\UserAccountResource',
-            'route_name' => 'account.rest.doctrine.user-account',
-            'route_identifier_name' => 'user_account_id',
-            'entity_identifier_name' => 'id',
-            'collection_name' => 'user_account',
+        'Account\\V1\\Rest\\User\\Controller' => array(
+            'listener' => 'Account\\V1\\Rest\\User\\UserResource',
+            'route_name' => 'account.rest.user',
+            'route_identifier_name' => 'user_id',
+            'collection_name' => 'user',
             'entity_http_methods' => array(
                 0 => 'GET',
                 1 => 'PATCH',
@@ -54,109 +64,80 @@ return array(
             'collection_query_whitelist' => array(),
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'Account\\Entity\\UserAccount',
-            'collection_class' => 'Account\\V1\\Rest\\UserAccount\\UserAccountCollection',
-            'service_name' => 'UserAccount',
+            'entity_class' => 'Account\\V1\\Rest\\User\\UserEntity',
+            'collection_class' => 'Account\\V1\\Rest\\User\\UserCollection',
+            'service_name' => 'User',
         ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
-            'Account\\V1\\Rest\\UserAccount\\Controller' => 'HalJson',
+            'Account\\V1\\Rest\\User\\Controller' => 'HalJson',
+            'Account\\V1\\Rpc\\HelloWorld\\Controller' => 'Json',
         ),
-        'accept-whitelist' => array(
-            'Account\\V1\\Rest\\UserAccount\\Controller' => array(
+        'accept-whitelist' => array(),
+        'content-type-whitelist' => array(),
+        'accept_whitelist' => array(
+            'Account\\V1\\Rest\\User\\Controller' => array(
                 0 => 'application/vnd.account.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'Account\\V1\\Rpc\\HelloWorld\\Controller' => array(
+                0 => 'application/vnd.account.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
         ),
-        'content-type-whitelist' => array(
-            'Account\\V1\\Rest\\UserAccount\\Controller' => array(
-                0 => 'application/json',
+        'content_type_whitelist' => array(
+            'Account\\V1\\Rest\\User\\Controller' => array(
+                0 => 'application/vnd.account.v1+json',
+                1 => 'application/json',
+            ),
+            'Account\\V1\\Rpc\\HelloWorld\\Controller' => array(
+                0 => 'application/vnd.account.v1+json',
+                1 => 'application/json',
             ),
         ),
     ),
     'zf-hal' => array(
         'metadata_map' => array(
-            'Account\\Entity\\UserAccount' => array(
-                'route_identifier_name' => 'user_account_id',
+            'Account\\V1\\Rest\\User\\UserEntity' => array(
                 'entity_identifier_name' => 'id',
-                'route_name' => 'account.rest.doctrine.user-account',
-                'hydrator' => 'Account\\V1\\Rest\\UserAccount\\UserAccountHydrator',
+                'route_name' => 'account.rest.user',
+                'route_identifier_name' => 'user_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
             ),
-            'Account\\V1\\Rest\\UserAccount\\UserAccountCollection' => array(
+            'Account\\V1\\Rest\\User\\UserCollection' => array(
                 'entity_identifier_name' => 'id',
-                'route_name' => 'account.rest.doctrine.user-account',
+                'route_name' => 'account.rest.user',
+                'route_identifier_name' => 'user_id',
                 'is_collection' => true,
             ),
         ),
     ),
     'zf-apigility' => array(
-        'doctrine-connected' => array(
-            'Account\\V1\\Rest\\UserAccount\\UserAccountResource' => array(
-                'object_manager' => 'doctrine.entitymanager.orm_default',
-                'hydrator' => 'Account\\V1\\Rest\\UserAccount\\UserAccountHydrator',
-            ),
+        'doctrine-connected' => array(),
+    ),
+    'doctrine-hydrator' => array(),
+    'zf-content-validation' => array(),
+    'input_filter_specs' => array(),
+    'service_manager' => array(
+        'factories' => array(
+            'Account\\V1\\Rest\\User\\UserResource' => 'Account\\V1\\Rest\\User\\UserResourceFactory',
         ),
     ),
-    'doctrine-hydrator' => array(
-        'Account\\V1\\Rest\\UserAccount\\UserAccountHydrator' => array(
-            'entity_class' => 'Account\\Entity\\UserAccount',
-            'object_manager' => 'doctrine.entitymanager.orm_default',
-            'by_value' => true,
-            'strategies' => array(),
-            'use_generated_hydrator' => true,
+    'controllers' => array(
+        'factories' => array(
+            'Account\\V1\\Rpc\\HelloWorld\\Controller' => 'Account\\V1\\Rpc\\HelloWorld\\HelloWorldControllerFactory',
         ),
     ),
-    'zf-content-validation' => array(
-        'Account\\V1\\Rest\\UserAccount\\Controller' => array(
-            'input_filter' => 'Account\\V1\\Rest\\UserAccount\\Validator',
-        ),
-    ),
-    'input_filter_specs' => array(
-        'Account\\V1\\Rest\\UserAccount\\Validator' => array(
-            0 => array(
-                'name' => 'name',
-                'required' => false,
-                'filters' => array(
-                    0 => array(
-                        'name' => 'Zend\\Filter\\StringTrim',
-                    ),
-                    1 => array(
-                        'name' => 'Zend\\Filter\\StripTags',
-                    ),
-                ),
-                'validators' => array(
-                    0 => array(
-                        'name' => 'Zend\\Validator\\StringLength',
-                        'options' => array(
-                            'min' => 1,
-                            'max' => 200,
-                        ),
-                    ),
-                ),
+    'zf-rpc' => array(
+        'Account\\V1\\Rpc\\HelloWorld\\Controller' => array(
+            'service_name' => 'HelloWorld',
+            'http_methods' => array(
+                0 => 'GET',
             ),
-            1 => array(
-                'name' => 'username',
-                'required' => false,
-                'filters' => array(
-                    0 => array(
-                        'name' => 'Zend\\Filter\\StringTrim',
-                    ),
-                    1 => array(
-                        'name' => 'Zend\\Filter\\StripTags',
-                    ),
-                ),
-                'validators' => array(
-                    0 => array(
-                        'name' => 'Zend\\Validator\\StringLength',
-                        'options' => array(
-                            'min' => 1,
-                            'max' => 200,
-                        ),
-                    ),
-                ),
-            ),
+            'route_name' => 'account.rpc.hello-world',
         ),
     ),
 );

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="users")
  */
-class UserAccount
+class User
 {
     /**
      * @ORM\Id
@@ -28,7 +28,7 @@ class UserAccount
     protected $name;
 
     /**
-     * @ORM\Column(type="string", nullable=true, length=200)
+     * @ORM\Column(type="string", unique=true, length=200)
      */
     protected $username;
 
