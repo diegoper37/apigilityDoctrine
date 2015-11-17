@@ -37,15 +37,6 @@ return array(
                     ),
                 ),
             ),
-            'account.rest.doctrine.user' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/user[/:user_id]',
-                    'defaults' => array(
-                        'controller' => 'Account\\V1\\Rest\\User\\Controller',
-                    ),
-                ),
-            ),
             'account.rest.book' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -61,7 +52,6 @@ return array(
         'uri' => array(
             1 => 'account.rpc.hello-world',
             2 => 'account.rest.ping',
-            0 => 'account.rest.doctrine.user',
             3 => 'account.rest.book',
         ),
     ),
@@ -87,29 +77,6 @@ return array(
             'entity_class' => 'Account\\V1\\Rest\\Ping\\PingEntity',
             'collection_class' => 'Account\\V1\\Rest\\Ping\\PingCollection',
             'service_name' => 'Ping',
-        ),
-        'Account\\V1\\Rest\\User\\Controller' => array(
-            'listener' => 'Account\\V1\\Rest\\User\\UserResource',
-            'route_name' => 'account.rest.doctrine.user',
-            'route_identifier_name' => 'user_id',
-            'entity_identifier_name' => 'id',
-            'collection_name' => 'user',
-            'entity_http_methods' => array(
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-            ),
-            'collection_http_methods' => array(
-                0 => 'GET',
-                1 => 'POST',
-            ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
-            'page_size_param' => null,
-            'entity_class' => 'Account\\Entity\\User',
-            'collection_class' => 'Account\\V1\\Rest\\User\\UserCollection',
-            'service_name' => 'User',
         ),
         'Account\\V1\\Rest\\Book\\Controller' => array(
             'listener' => 'Account\\V1\\Rest\\Book\\BookResource',
@@ -138,22 +105,10 @@ return array(
         'controllers' => array(
             'Account\\V1\\Rpc\\HelloWorld\\Controller' => 'Json',
             'Account\\V1\\Rest\\Ping\\Controller' => 'HalJson',
-            'Account\\V1\\Rest\\User\\Controller' => 'HalJson',
             'Account\\V1\\Rest\\Book\\Controller' => 'HalJson',
         ),
-        'accept-whitelist' => array(
-            'Account\\V1\\Rest\\User\\Controller' => array(
-                0 => 'application/vnd.account.v1+json',
-                1 => 'application/hal+json',
-                2 => 'application/json',
-            ),
-        ),
-        'content-type-whitelist' => array(
-            'Account\\V1\\Rest\\User\\Controller' => array(
-                0 => 'application/vnd.account.v1+json',
-                1 => 'application/json',
-            ),
-        ),
+        'accept-whitelist' => array(),
+        'content-type-whitelist' => array(),
         'accept_whitelist' => array(
             'Account\\V1\\Rpc\\HelloWorld\\Controller' => array(
                 0 => 'application/vnd.account.v1+json',
@@ -200,17 +155,6 @@ return array(
                 'route_identifier_name' => 'ping_id',
                 'is_collection' => true,
             ),
-            'Account\\Entity\\User' => array(
-                'route_identifier_name' => 'user_id',
-                'entity_identifier_name' => 'id',
-                'route_name' => 'account.rest.doctrine.user',
-                'hydrator' => 'Account\\V1\\Rest\\User\\UserHydrator',
-            ),
-            'Account\\V1\\Rest\\User\\UserCollection' => array(
-                'entity_identifier_name' => 'id',
-                'route_name' => 'account.rest.doctrine.user',
-                'is_collection' => true,
-            ),
             'Account\\V1\\Rest\\Book\\BookEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'account.rest.book',
@@ -226,75 +170,15 @@ return array(
         ),
     ),
     'zf-apigility' => array(
-        'doctrine-connected' => array(
-            'Account\\V1\\Rest\\User\\UserResource' => array(
-                'object_manager' => 'doctrine.entitymanager.orm_default',
-                'hydrator' => 'Account\\V1\\Rest\\User\\UserHydrator',
-            ),
-        ),
+        'doctrine-connected' => array(),
     ),
-    'doctrine-hydrator' => array(
-        'Account\\V1\\Rest\\User\\UserHydrator' => array(
-            'entity_class' => 'Account\\Entity\\User',
-            'object_manager' => 'doctrine.entitymanager.orm_default',
-            'by_value' => true,
-            'strategies' => array(),
-            'use_generated_hydrator' => true,
-        ),
-    ),
+    'doctrine-hydrator' => array(),
     'zf-content-validation' => array(
-        'Account\\V1\\Rest\\User\\Controller' => array(
-            'input_filter' => 'Account\\V1\\Rest\\User\\Validator',
-        ),
         'Account\\V1\\Rest\\Book\\Controller' => array(
             'input_filter' => 'Account\\V1\\Rest\\Book\\Validator',
         ),
     ),
     'input_filter_specs' => array(
-        'Account\\V1\\Rest\\User\\Validator' => array(
-            0 => array(
-                'name' => 'name',
-                'required' => false,
-                'filters' => array(
-                    0 => array(
-                        'name' => 'Zend\\Filter\\StringTrim',
-                    ),
-                    1 => array(
-                        'name' => 'Zend\\Filter\\StripTags',
-                    ),
-                ),
-                'validators' => array(
-                    0 => array(
-                        'name' => 'Zend\\Validator\\StringLength',
-                        'options' => array(
-                            'min' => 1,
-                            'max' => 200,
-                        ),
-                    ),
-                ),
-            ),
-            1 => array(
-                'name' => 'username',
-                'required' => true,
-                'filters' => array(
-                    0 => array(
-                        'name' => 'Zend\\Filter\\StringTrim',
-                    ),
-                    1 => array(
-                        'name' => 'Zend\\Filter\\StripTags',
-                    ),
-                ),
-                'validators' => array(
-                    0 => array(
-                        'name' => 'Zend\\Validator\\StringLength',
-                        'options' => array(
-                            'min' => 1,
-                            'max' => 200,
-                        ),
-                    ),
-                ),
-            ),
-        ),
         'Account\\V1\\Rest\\Book\\Validator' => array(
             0 => array(
                 'required' => true,

@@ -125,7 +125,7 @@ class BookResource extends AbstractResourceListener
             return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume()];
         }
 
-        return new ApiProblem(412, 'Nenhum dado foi passado como parametro');
+        return new ApiProblem(412, 'Nenhuma alteração foi efetuada');
     }
 
     /**
