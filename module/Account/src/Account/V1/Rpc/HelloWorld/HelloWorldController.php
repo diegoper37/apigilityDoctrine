@@ -7,6 +7,6 @@ class HelloWorldController extends AbstractActionController
 {
     public function helloWorldAction()
     {
-        return ['msg' => 'hello world'];
+        return ['ack' => time()];
     }
 }
