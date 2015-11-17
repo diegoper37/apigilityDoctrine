@@ -46,6 +46,15 @@ return array(
                     ),
                 ),
             ),
+            'account.rest.user' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/user[/:user_id]',
+                    'defaults' => array(
+                        'controller' => 'Account\\V1\\Rest\\User\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -53,6 +62,7 @@ return array(
             1 => 'account.rpc.hello-world',
             2 => 'account.rest.ping',
             3 => 'account.rest.book',
+            0 => 'account.rest.user',
         ),
     ),
     'zf-rest' => array(
@@ -100,12 +110,35 @@ return array(
             'collection_class' => 'Account\\V1\\Rest\\Book\\BookCollection',
             'service_name' => 'Book',
         ),
+        'Account\\V1\\Rest\\User\\Controller' => array(
+            'listener' => 'Account\\V1\\Rest\\User\\UserResource',
+            'route_name' => 'account.rest.user',
+            'route_identifier_name' => 'user_id',
+            'collection_name' => 'user',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => '25',
+            'page_size_param' => null,
+            'entity_class' => 'Account\\V1\\Rest\\User\\UserEntity',
+            'collection_class' => 'Account\\V1\\Rest\\User\\UserCollection',
+            'service_name' => 'User',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
             'Account\\V1\\Rpc\\HelloWorld\\Controller' => 'Json',
             'Account\\V1\\Rest\\Ping\\Controller' => 'HalJson',
             'Account\\V1\\Rest\\Book\\Controller' => 'HalJson',
+            'Account\\V1\\Rest\\User\\Controller' => 'HalJson',
         ),
         'accept-whitelist' => array(),
         'content-type-whitelist' => array(),
@@ -125,6 +158,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'Account\\V1\\Rest\\User\\Controller' => array(
+                0 => 'application/vnd.account.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'Account\\V1\\Rpc\\HelloWorld\\Controller' => array(
@@ -136,6 +174,10 @@ return array(
                 1 => 'application/json',
             ),
             'Account\\V1\\Rest\\Book\\Controller' => array(
+                0 => 'application/vnd.account.v1+json',
+                1 => 'application/json',
+            ),
+            'Account\\V1\\Rest\\User\\Controller' => array(
                 0 => 'application/vnd.account.v1+json',
                 1 => 'application/json',
             ),
@@ -165,6 +207,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'account.rest.book',
                 'route_identifier_name' => 'book_id',
+                'is_collection' => true,
+            ),
+            'Account\\V1\\Rest\\User\\UserEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'account.rest.user',
+                'route_identifier_name' => 'user_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+            ),
+            'Account\\V1\\Rest\\User\\UserCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'account.rest.user',
+                'route_identifier_name' => 'user_id',
                 'is_collection' => true,
             ),
         ),
@@ -200,6 +254,7 @@ return array(
         'factories' => array(
             'Account\\V1\\Rest\\Ping\\PingResource' => 'Account\\V1\\Rest\\Ping\\PingResourceFactory',
             'Account\\V1\\Rest\\Book\\BookResource' => 'Account\\V1\\Rest\\Book\\BookResourceFactory',
+            'Account\\V1\\Rest\\User\\UserResource' => 'Account\\V1\\Rest\\User\\UserResourceFactory',
         ),
     ),
     'controllers' => array(
