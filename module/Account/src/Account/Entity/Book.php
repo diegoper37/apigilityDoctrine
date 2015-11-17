@@ -33,6 +33,13 @@ class Book
     protected $resume;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Account\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $user;
+
+
+    /**
      * @return the $id
      */
     public function getId() {
@@ -41,7 +48,7 @@ class Book
 
     /**
      * @param string $id
-     * @return Account\Entity\Book The Book itself
+     * @return \Account\Entity\Book The Book itself
      */
     public function setId($id) {
         $this->id = $id;
@@ -57,7 +64,7 @@ class Book
 
     /**
      * @param string $name
-     * @return Account\Entity\Book The Book itself
+     * @return \Account\Entity\Book The Book itself
      */
     public function setName($name) {
         $this->name = $name;
@@ -74,11 +81,27 @@ class Book
 
     /**
      * @param strinr $resume
-     * @return Account\Entity\Book The Book itself
+     * @return \Account\Entity\Book The Book itself
      */
     public function setResume($resume)
     {
         $this->resume = $resume;
+        return $this;
+    }
+
+    /**
+     * @return \Account\Entity\User
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * @param \Account\Entity\User $user
+     * @return self
+     */
+    public function setUser(\Account\Entity\User $user) {
+        $this->user = $user;
         return $this;
     }
 }
