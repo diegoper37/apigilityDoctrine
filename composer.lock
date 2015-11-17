@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fd84bdc7bb7dd0b9c9e4642e137757df",
-    "content-hash": "3d369bc0b8316bd19f717c725a8242fc",
+    "hash": "a1916affcb42c4a559d6b58da73dd6d7",
+    "content-hash": "4e86414efdcd90030c1a1e59e92c37d9",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -5424,6 +5424,80 @@
                 "zf2"
             ],
             "time": "2015-08-31 08:36:55"
+        },
+        {
+            "name": "zfcampus/zf-doctrine-querybuilder",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zfcampus/zf-doctrine-querybuilder.git",
+                "reference": "e0759f444377dfc8a9e82b1bf3aa7059166a285e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zfcampus/zf-doctrine-querybuilder/zipball/e0759f444377dfc8a9e82b1bf3aa7059166a285e",
+                "reference": "e0759f444377dfc8a9e82b1bf3aa7059166a285e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-module": "^0.9",
+                "php": ">=5.4",
+                "zendframework/zend-modulemanager": "^2.5",
+                "zendframework/zend-mvc": "^2.5",
+                "zendframework/zend-servicemanager": "^2.5",
+                "zfcampus/zf-api-problem": "^1.1",
+                "zfcampus/zf-hal": "^1.2"
+            },
+            "require-dev": {
+                "doctrine/doctrine-mongo-odm-module": "0.*@dev",
+                "doctrine/doctrine-orm-module": "0.*@dev",
+                "phpunit/phpunit": "^4.1",
+                "squizlabs/php_codesniffer": "^2.0",
+                "zendframework/zendframework": "^2.5",
+                "zfcampus/zf-apigility-provider": "^1.1"
+            },
+            "suggest": {
+                "doctrine/doctrine-mongo-odm-module": "v0.*, if you wish to use the Doctrine ODM",
+                "doctrine/doctrine-orm-module": "v0.*, if you wish to use the Doctrine ORM",
+                "ext/mongo": "Mongo extension, if using ODM"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev",
+                    "dev-develop": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ZF\\Doctrine\\QueryBuilder\\": "src/"
+                },
+                "classmap": [
+                    "Module.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Tom Anderson",
+                    "email": "tom.h.anderson@gmail.com"
+                }
+            ],
+            "description": "QueryBuilder filters for Doctrine",
+            "homepage": "https://github.com/zfcampus/zf-doctrine-querybuilder-filter",
+            "keywords": [
+                "api",
+                "apigility",
+                "doctrine",
+                "filter",
+                "module",
+                "zend",
+                "zf2"
+            ],
+            "time": "2015-09-16 21:53:55"
         },
         {
             "name": "zfcampus/zf-hal",
