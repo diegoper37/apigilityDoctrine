@@ -36,12 +36,14 @@ class BookResource extends AbstractResourceListener
      */
     public function create($data)
     {
+        $userEntity = $this->getObjectManager()->getRepository('Account\Entity\User')->findOneById($data->user);
         $entity = new \Account\Entity\Book();
         $entity->setName($data->name);
         $entity->setResume($data->resume);
+        $entity->setUser($userEntity);
         $this->getObjectManager()->persist($entity);
         $this->getObjectManager()->flush();
-        return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume()];
+        return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume(),'user' => $entity->getUser()->getName()];
     }
 
     /**
@@ -80,7 +82,7 @@ class BookResource extends AbstractResourceListener
     {
         $repo = $this->getObjectManager()->getRepository('Account\Entity\Book');
         $entity = $repo->findOneById($id);
-        return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume()];
+        return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume(),'user'=> $entity->getUser()->getName()];
     }
 
     /**
@@ -94,7 +96,7 @@ class BookResource extends AbstractResourceListener
         $repo = $this->getObjectManager()->getRepository('Account\Entity\Book');
         $entities = $repo->findAll();
         foreach ($entities as $entity) {
-            $collection[] = ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume()];
+            $collection[] = ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume(),'user'=> $entity->getUser()->getName()];
         }
         return $collection;
     }
@@ -122,7 +124,7 @@ class BookResource extends AbstractResourceListener
         if($alter !== false){
             $this->getObjectManager()->persist($entity);
             $this->getObjectManager()->flush();
-            return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume()];
+            return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume(),'user'=> $entity->getUser()->getName()];
         }
 
         return new ApiProblem(412, 'Nenhuma alteração foi efetuada');
@@ -154,6 +156,6 @@ class BookResource extends AbstractResourceListener
         $entity->setResume($data->resume);
         $this->getObjectManager()->persist($entity);
         $this->getObjectManager()->flush();
-        return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume()];
+        return ['id' => $entity->getId(),'name' => $entity->getName(),'resume' => $entity->getResume(),'user'=> $entity->getUser()->getName()];
     }
 }
